@@ -1,0 +1,14 @@
+require 'rubygems'
+
+ENV['RACK_ENV'] ||= 'test'
+
+require 'rack/test'
+require_relative '../server/app'
+
+RSpec.configure do |config|
+  config.color = true
+
+  config.mock_with :rspec
+  config.expect_with :rspec
+  config.raise_errors_for_deprecations!
+end

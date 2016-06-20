@@ -1,0 +1,8 @@
+.env
+/.bundle
+/log/
+/tmp/
+/pids/
+coverage
+.pid
+.log
