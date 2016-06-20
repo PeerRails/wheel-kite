@@ -1,6 +1,7 @@
 require 'rubygems'
 
 ENV['RACK_ENV'] ||= 'test'
+ENV['DATABASE_URL'] ||= 'postgres://test:test@localhost/wheelkite-test'
 
 require 'rack/test'
 require_relative '../server/app'

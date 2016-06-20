@@ -1,12 +1,15 @@
 require "grape"
+require "sequel"
 
 logger = Logger.new("logs/app.log")
+
+connect_url = ENV["DATABASE_URL"] || 'postgres://dev:dev@localhost/wheelkite-dev'
+DB = Sequel.connect(connect_url)
 
 module App
   class API < Grape::API
     format :json
     content_type :json, 'application/json'
-    prefix :api
 
     helpers do
       def logger
@@ -22,7 +25,7 @@ module App
 
     desc "Return ok"
     get do
-      API.logger.info "Request: /api"
+      API.logger.info "Request: /"
       {text: 'OK', message: "Kaiji"}
     end
 
