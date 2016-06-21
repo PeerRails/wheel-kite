@@ -1,6 +1,6 @@
 .env
 /.bundle
-/log/
+/logs/
 /tmp/
 /pids/
 coverage
