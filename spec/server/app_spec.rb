@@ -13,5 +13,10 @@ describe App::API do
     expect(last_response.status).to eq(200)
     expect(response["text"]).to eq('OK')
   end
+  it 'returns 404' do
+    get '/404'
+    expect(last_response.status).to eq(404)
+    expect(response["error"]).to eq('not_found')
+  end
 
 end
