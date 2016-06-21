@@ -1,4 +1,5 @@
 require "./server/app"
+PID = "#{Dir.pwd}/pids/app.pid"
 
 desc "Help Command"
 task :help do
@@ -19,19 +20,20 @@ desc "Run Server"
 task :up do
   port = ENV["RACK_PORT"] || "9000"
   host = ENV["RACK_HOST"] || "0.0.0.0"
-  Rack::Server.start :app => App::API, :Host => host, :Port => port, :daemonize => true, :pid => "#{Dir.pwd}/grape.pid"
+  Rack::Server.start :app => App::API, :Host => host, :Port => port, :daemonize => true, :pid => PID
 end
 
 desc "Stop Server"
 task :stop do
-  Process.kill(15, File.read("#{Dir.pwd}/grape.pid").to_i)
+  Process.kill(15, File.read(PID).to_i)
 end
 
 desc "Restar Server"
 task :restart do
-  Rake::Task['stop'].invoke if File.exists? "#{Dir.pwd}/grape.pid"
+  Rake::Task['stop'].invoke if File.exists? PID
   sleep(1)
   Rake::Task['up'].invoke
+  puts "Command restart sent success"
 end
 
 task default: [:help]
