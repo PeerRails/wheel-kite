@@ -15,4 +15,30 @@ module Haversine
 
     return c*RADIUS
   end
+
+  def self.eta(dist)
+    # Maybe be changed to complex algorithm
+    dist * 1.5
+  end
+
+  def self.eta_median(cars=[], call=[])
+    # I will believe, that DB returns to service the real coordinates of cars
+    if call.length != 2
+      raise ArgumentError
+    end
+    etas = []
+    cars.each { |car| etas.push eta(distance(car, call)) }
+    (etas.sort[(etas.length - 1) / 2] + etas.sort[etas.length / 2]) / 2.0
+  end
+
+  def self.eta_best(cars=[], call=[])
+    # I will believe, that DB returns to service the real coordinates of cars
+    if call.length != 2
+      raise ArgumentError
+    end
+    etas = []
+    cars.each { |car| etas.push eta(distance(car, call)) }
+    etas.min
+  end
+
 end
