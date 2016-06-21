@@ -1,7 +1,7 @@
 module Haversine
   RADIUS=6371
   def self.distance(pos1, pos2)
-    unless pos1.is_a?(Array) || pos2.is_a?(Array)
+    unless pos1.is_a?(Array) && pos2.is_a?(Array)
       raise ArgumentError
     end
     lat1 = pos1[0]*Math::PI/180
@@ -21,23 +21,24 @@ module Haversine
     dist * 1.5
   end
 
-  def self.eta_median(cars=[], call=[])
+  def self.calculate_eta(cars=[], call=[])
+    unless cars.is_a?(Array)
+      raise ArgumentError
+    end
     # I will believe, that DB returns to service the real coordinates of cars
-    if call.length != 2
+    unless call.is_a?(Array) && call.length == 2
       raise ArgumentError
     end
     etas = []
     cars.each { |car| etas.push eta(distance(car, call)) }
+    return etas
+  end
+
+  def self.eta_median(etas=[])
     (etas.sort[(etas.length - 1) / 2] + etas.sort[etas.length / 2]) / 2.0
   end
 
-  def self.eta_best(cars=[], call=[])
-    # I will believe, that DB returns to service the real coordinates of cars
-    if call.length != 2
-      raise ArgumentError
-    end
-    etas = []
-    cars.each { |car| etas.push eta(distance(car, call)) }
+  def self.eta_best(etas=[])
     etas.min
   end
 

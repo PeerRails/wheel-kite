@@ -24,14 +24,23 @@ describe App do
 
       before do
         # too lazy to let them be (:
-        @input = [car1, car2, car3, car4]
+        @cars = [car1, car2, car3, car4]
       end
+
+      let(:etas) { app.calculate_eta(@cars, call) }
 
       it { expect(distance1.round(12)).to eql(137.365669065197) }
       it { expect(app.eta(distance1).round(12)).to eql(206.048503597796) }
-      it { expect(app.eta_best(@input, call)).to eql(0.2969931637091627) }
-      it { expect(app.eta_median(@input, call)).to eql(0.5672658348688635) }
+      it { expect(etas[0]).to eql(0.2969931637091627) }
+      it { expect(app.eta_best(etas)).to eql(0.2969931637091627) }
+      it { expect(app.eta_median(etas)).to eql(0.5672658348688635) }
 
+    end
+
+    describe "errors" do
+      it { expect{app.distance(nil, call_position)}.to raise_error ArgumentError }
+      it { expect{app.calculate_eta(nil, call_position)}.to raise_error ArgumentError }
+      it { expect{app.calculate_eta([[1,2]], nil)}.to raise_error ArgumentError }
     end
   end
 
