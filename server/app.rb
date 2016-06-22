@@ -26,12 +26,7 @@ module App
       end
     end
 
-    rescue_from :all do |e|
-      error_ticket = SecureRandom.hex(42)
-      logger.error "#{error_ticket}\n#{e}"
-      error! "Service Error, ticket: #{error_ticket}", 502
-    end
-
+    # Routes
     desc "Return ok"
     get do
       logger.info "Request: /"
@@ -60,9 +55,25 @@ module App
 
     end
 
+    # Error handlers
     route :any, '*path' do
       logger.error "404"
       error! :not_found, 404
+    end
+
+    rescue_from :all do |e|
+      error_ticket = SecureRandom.hex(42)
+      logger.error "#{error_ticket}\n#{e}"
+      error! "Service Error, ticket: #{error_ticket}", 502
+    end
+
+    # Params
+
+    params do
+      group :location, type: Hash do
+        requires :long, type: Float
+        requires :lat, type: Float
+      end
     end
 
   end
