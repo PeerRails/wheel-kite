@@ -26,9 +26,6 @@ describe App::API do
 
   describe "POST /search" do
     let(:response) {JSON.parse(last_response.body)}
-    before do
-
-    end
 
     it "should return a nearest car" do
       post "/search", location: {long: 40.71330, lat: -74}
@@ -47,9 +44,9 @@ describe App::API do
       expect(response["error"]).not_to be nil
     end
 
-    after do
-      #DatabaseCleaner.clean
-    end
+    #it "should return error when no available cars" do
+      #and how will I do this?
+    #end
   end
 
 end

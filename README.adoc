@@ -1,0 +1,76 @@
+= Wheel Kite
+Emin Agaev <homuthesun@gmail.com>
+
+Test task for backend developers
+
+= Install
+Wheel Kite is a microservice to calculate taxi ETA
+It is a test Grape project.
+
+== Requirements
+
+* Ruby 2.0+
+* Postgresql 9.3+
+* PostGIS
+
+== Installation
+
+You need to clone the github project using the `git` command:
+
+ git clone https://github.com/PeerRails/wheel-kite
+
+If You are using rvm check this https://rvm.io/workflow/projects#rvm-configuration[https://rvm.io/workflow/projects#rvm-configuration]
+
+Install extentions Postgis and contrib for Postgresql (example for Centos and Postgresql 9.4):
+
+//
+ sudo install postgis2_94 postgresql94-contrib
+ -- Enable PostGIS
+ CREATE EXTENSION postgis;
+ -- Enable Topology
+ CREATE EXTENSION postgis_topology;
+ -- Enable fuzzy match
+ CREATE EXTENSION fuzzystrmatch;
+ -- Enable Tiger Geocoder
+ CREATE EXTENSION postgis_tiger_geocoder;
+//
+
+Install Databases in PG for environments.
+I will remind you, that you can set any database with any role
+using environment parameter *DATABASE_URL*. Example `postgres://dev:dev@localhost/wheelkite-dev`
+In production *please set DATABASE_URL*
+
+//
+  CREATE ROLE dev WITH LOGIN PASSWORD dev;
+  CREATE ROLE test WITH LOGIN PASSWORD test;
+  CREATE DATABASE whitekite-dev WITH OWNER dev;
+  CREATE DATABASE whitekite-test WITH OWNER test;
+//
+
+Then install required gems using the `bundle` command:
+
+ bundle install
+
+Install Sample data from `sql/002_create_cars.sql` for dev and test environments:
+
+ psql -h host -U dev whitekite-dev < sql/0002_create_cars.sql
+ psql -h host -U test whitekite-test < sql/0002_create_cars.sql
+
+Want to test? Here it is:
+
+ rspec
+
+And it's time to try!
+Start the service:
+ rake up
+
+Test connection
+ curl -H "Content-Type: application/json" http://localhost:9000/
+ curl -H "Content-Type: application/json" -X POST -d '{"location": {"long": 40.71330, "lat": -74}}' http://localhost:9000/search
+
+= Environment Parameters
+
+* RACK_ENV _(default: development)_
+* RACK_PORT _(default: 9000)_
+* RACK_HOST _(default: 0.0.0.0)_
+* DATABASE_URL _(default: dev `postgres://dev:dev@localhost/wheelkite-dev` , test `postgres://test:test@localhost/wheelkite-test`)_
