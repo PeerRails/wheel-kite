@@ -23,7 +23,6 @@ If You are using rvm check this https://rvm.io/workflow/projects#rvm-configurati
 
 Install extentions Postgis and contrib for Postgresql (example for Centos and Postgresql 9.4):
 
-//
  sudo install postgis2_94 postgresql94-contrib
  -- Enable PostGIS
  CREATE EXTENSION postgis;
@@ -33,19 +32,16 @@ Install extentions Postgis and contrib for Postgresql (example for Centos and Po
  CREATE EXTENSION fuzzystrmatch;
  -- Enable Tiger Geocoder
  CREATE EXTENSION postgis_tiger_geocoder;
-//
 
 Install Databases in PG for environments.
 I will remind you, that you can set any database with any role
 using environment parameter *DATABASE_URL*. Example `postgres://dev:dev@localhost/wheelkite-dev`
 In production *please set DATABASE_URL*
 
-//
   CREATE ROLE dev WITH LOGIN PASSWORD dev;
   CREATE ROLE test WITH LOGIN PASSWORD test;
   CREATE DATABASE whitekite-dev WITH OWNER dev;
   CREATE DATABASE whitekite-test WITH OWNER test;
-//
 
 Then install required gems using the `bundle` command:
 
@@ -60,11 +56,12 @@ Want to test? Here it is:
 
  rspec
 
-And it's time to try!
-Start the service:
+And it's time to try! Start the service:
+
  rake up
 
 Test connection
+
  curl -H "Content-Type: application/json" http://localhost:9000/
  curl -H "Content-Type: application/json" -X POST -d '{"location": {"long": 40.71330, "lat": -74}}' http://localhost:9000/search
 
