@@ -32,7 +32,8 @@ describe App do
       it { expect(distance1.round(12)).to eql(137.365669065197) }
       it { expect(app.eta(distance1).round(12)).to eql(206.048503597796) }
       it { expect(etas[0]).to eql(0.2969931637091627) }
-      it { expect(app.eta_best(etas)).to eql(0.2969931637091627) }
+      it { expect(app.eta_best(etas)[0]).to eql(0.2969931637091627) }
+      it { expect(app.eta_best(etas)[1]).to eq(0) }
       it { expect(app.eta_median(etas)).to eql(0.5672658348688635) }
 
     end

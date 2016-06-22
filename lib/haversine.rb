@@ -39,7 +39,7 @@ module Haversine
   end
 
   def self.eta_best(etas=[])
-    etas.min
+    etas.each_with_index.min
   end
 
 end
