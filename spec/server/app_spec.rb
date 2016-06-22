@@ -15,6 +15,7 @@ describe App::API do
       expect(last_response.status).to eq(200)
       expect(response["text"]).to eq('OK')
     end
+
     it 'returns 404' do
       get '/404'
       expect(last_response.status).to eq(404)
@@ -23,8 +24,21 @@ describe App::API do
 
   end
 
-  describe "GET /call" do
+  describe "POST /search" do
+    let(:response) {JSON.parse(last_response.body)}
+    before do
 
+    end
+
+    it "should return a nearest car" do
+      post "/search", location: {long: 40.71330, lat: -74}
+      expect(response["error"]).to be nil
+      expect(response["eta"]).to eql(0.5253301482113608)
+    end
+
+    after do
+      #DatabaseCleaner.clean
+    end
   end
 
 end

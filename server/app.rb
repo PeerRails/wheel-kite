@@ -1,14 +1,21 @@
 require "grape"
 require "sequel"
 require 'dotenv'
+require 'securerandom'
 require_relative "../lib/haversine.rb"
+require_relative "../lib/cars.rb"
 
 connect_url = ENV["DATABASE_URL"] || 'postgres://dev:dev@localhost/wheelkite-dev'
 DB = Sequel.connect(connect_url)
 Dotenv.load
 
 module App
-  include Haversine
+  extend Haversine
+
+  def self.mideta(cars=[], person=[])
+    Haversine.eta_median(Haversine.calculate_eta(cars, person))
+  end
+
   class API < Grape::API
     format :json
     content_type :json, 'application/json'
@@ -20,16 +27,32 @@ module App
     end
 
     rescue_from :all do |e|
-      logger.error e
-      status 502
-      {error: true, message: 'an unexpected error'}
+      error_ticket = SecureRandom.hex(42)
+      logger.error "#{error_ticket}\n#{e}"
+      error! "Service Error, ticket: #{error_ticket}", 502
     end
 
     desc "Return ok"
     get do
       logger.info "Request: /"
-
       {text: 'OK', message: "Kaiji"}
+    end
+
+    desc "Find a car"
+    post "/search" do
+      ticket = SecureRandom.uuid
+      logger.info "Request: /search\nTicket: #{ticket}\nParams: #{params.to_json}"
+
+      long=params["location"]["long"].to_f
+      lat=params["location"]["lat"].to_f
+
+      cars = Car.find_nearest(long, lat)
+      car_coordinates = cars.map { |car| [car[:x], car[:y]] }
+      person = [long, lat]
+
+      result_eta = App.mideta(car_coordinates, person)
+      {eta: result_eta}
+
     end
 
     route :any, '*path' do
