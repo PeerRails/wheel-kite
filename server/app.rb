@@ -42,6 +42,11 @@ module App
     post "/search" do
       ticket = SecureRandom.uuid
       logger.info "Request: /search\nTicket: #{ticket}\nParams: #{params.to_json}"
+      if params["location"].nil?
+        error! "Not Valid Parameters", 400
+      elsif params["location"]["long"].nil? || params["location"]["lat"].nil?
+        error! "Not Valid Parameters", 400
+      end
 
       long=params["location"]["long"].to_f
       lat=params["location"]["lat"].to_f

@@ -36,6 +36,17 @@ describe App::API do
       expect(response["eta"]).to eql(0.5253301482113608)
     end
 
+    it "should return error with wrong params" do
+      post "/search", location: nil
+      expect(response["error"]).not_to be nil
+
+      post "/search", location: {name: "koko"}
+      expect(response["error"]).not_to be nil
+
+      post "/search"
+      expect(response["error"]).not_to be nil
+    end
+
     after do
       #DatabaseCleaner.clean
     end
