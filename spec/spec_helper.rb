@@ -1,4 +1,6 @@
 require 'rubygems'
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 
 ENV['RACK_ENV'] ||= 'test'
 ENV['DATABASE_URL'] ||= 'postgres://test:test@localhost/wheelkite-test'
@@ -7,6 +9,7 @@ require 'rack/test'
 require_relative '../server/app'
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation, {:only => %w[cars]}
+
 
 RSpec.configure do |config|
   config.color = true

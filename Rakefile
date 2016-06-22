@@ -30,7 +30,7 @@ end
 
 desc "Restar Server"
 task :restart do
-  Rake::Task['stop'].invoke if File.exists? PID
+  Rake::Task['stop'].invoke if File.exist? PID
   sleep(1)
   Rake::Task['up'].invoke
   puts "Command restart sent success"
