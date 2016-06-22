@@ -60,6 +60,10 @@ And it's time to try! Start the service:
 
  rake up
 
+Stop service
+
+ rake stop
+
 Test connection
 
  curl -H "Content-Type: application/json" http://localhost:9000/
