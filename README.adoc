@@ -1,6 +1,7 @@
 image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/gpa.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite"]
 image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/coverage.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite/coverage"]
 image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/issue_count.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite"]
+
 = Wheel Kite
 Emin Agaev <homuthesun@gmail.com>
 
