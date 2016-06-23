@@ -1,3 +1,6 @@
+image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/gpa.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite"]
+image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/coverage.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite/coverage"]
+image:https://codeclimate.com/github/PeerRails/wheel-kite/badges/issue_count.svg[link="https://codeclimate.com/github/PeerRails/wheel-kite"]
 = Wheel Kite
 Emin Agaev <homuthesun@gmail.com>
 
@@ -35,7 +38,7 @@ Install extentions Postgis and contrib for Postgresql (example for Centos and Po
 
 Install Databases in PG for environments.
 I will remind you, that you can set any database with any role
-using environment parameter *DATABASE_URL*. Example `postgres://dev:dev@localhost/wheelkite-dev`
+using environment variable *DATABASE_URL*. Example `postgres://dev:dev@localhost/wheelkite-dev`
 In production *please set DATABASE_URL*
 
   CREATE ROLE dev WITH LOGIN PASSWORD dev;
@@ -69,12 +72,16 @@ Test connection
  curl -H "Content-Type: application/json" http://localhost:9000/
  curl -H "Content-Type: application/json" -X POST -d '{"location": {"long": 40.71330, "lat": -74}}' http://localhost:9000/search
 
-= Environment Parameters
+= Environment Variables
 
 * RACK_ENV _(default: development)_
 * RACK_PORT _(default: 9000)_
 * RACK_HOST _(default: 0.0.0.0)_
 * DATABASE_URL _(default: dev `postgres://dev:dev@localhost/wheelkite-dev` , test `postgres://test:test@localhost/wheelkite-test`)_
+
+= TODO
+
+* Database Mock Tests
 
 == Краткое пояснение по технологиям
 
